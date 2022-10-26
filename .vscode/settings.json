@@ -46,6 +46,7 @@
   "gitpod.openInStable.neverPrompt": true,
   "redhat.telemetry.enabled": false,
   "solargraph.useBundler": true,
+  "rufo.useBundler": true,
   "emmet.includeLanguages": {
     "erb": "html"
   },
