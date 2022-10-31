@@ -10,4 +10,8 @@
 #  photo_id   :integer
 #
 class Comment < ApplicationRecord
+  validates(:commenter, { :presence => true })
+
+  belongs_to(:commenter, { :foreign_key => "author_id", :class_name => "User"})
+
 end

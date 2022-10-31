@@ -12,7 +12,11 @@
     <tr>
       <td><%= user.username %></td>
       <td><%= user.private %></td>
-      <td></td>
+      <td>
+        <% if @current_user != nil%>
+          
+        <% end %>
+      </td>
       <td>
         <a href="/users/<%= user.username %>">Show details</a>
       </td>

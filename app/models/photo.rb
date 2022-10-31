@@ -12,4 +12,17 @@
 #  owner_id       :integer
 #
 class Photo < ApplicationRecord
+  validates(:poster, { :presence => true })
+
+  belongs_to(:poster, { :foreign_key => "owner_id", :class_name => "User"})
+
+  has_many :comments
+
+  has_many :likes
+
+  has_many(:fans, { :through => :likes, :source => :fan})
+
+  has_many(:fan_list, -> {select :username}, { :through => :likes, :source => :fan })
+
+
 end
