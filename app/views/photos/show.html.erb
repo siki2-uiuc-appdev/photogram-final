@@ -37,7 +37,7 @@
         Owner
       </dt>
       <dd>
-        <%= @the_photo.owner_id %>
+        <%= @the_photo.poster.username %>
       </dd>
 
       <dt>
@@ -77,14 +77,21 @@
       </dd>
 
       <dt>Add a fan</dt>
-      <dd>
-        <form action="/insert_like" method="post">
-          <input type="hidden" name="query_photo_id" value="<%= @the_photo.id %>">
-          <input type="hidden" name="query_fan_id" value="<%= @current_user.id %>">
+      <% if @current_user.liked_photos.include?(@the_photo) %>
+         <dd>
+          <% the_like = Like.where({ :photo_id => @the_photo.id }).where({ :fan_id => @current_user.id }).first  %>
+          <a href="/delete_like/<%= the_like.id %>">Unlike</a>
+        </dd>
+      <% else %>
+        <dd>
+          <form action="/insert_like" method="post">
+            <input type="hidden" name="query_photo_id" value="<%= @the_photo.id %>">
+            <input type="hidden" name="query_fan_id" value="<%= @current_user.id %>">
           
-          <button>Like</button>
-        </form>
-      </dd>
+            <button>Like</button>
+          </form>
+        </dd>
+      <% end %>
     <%# <% if @current_user.id == @the_photo.poster.id%> %>
       <dt>
         Edit photo
