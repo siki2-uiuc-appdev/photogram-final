@@ -14,9 +14,17 @@
       <td><%= user.private ? 'Yes' : 'No' %></td>
       <td>
         <% if @current_user != nil%>
-          <form action="/inser_follow_request">
+          <form action="/insert_follow_request" method="post">
+            <input type="hidden" value="<%= user.id %>" name="query_recipient_id">
+            <input type="hidden" value="<%= @current_user.id %>" name="query_sender_id">
+            <input type="hidden" value="pending" name="query_status">
             <button>Follow</button>
           </form>
+        <% the_follow_request = FollowRequest.where({ :sender_id => @current_user.id}).where({ :recipient_id => user.id }).first %>
+        <%# FIX THIS LOGIC %>
+        <% elsif @current_user != nil && the_follow_request.status == "pending" %>
+          Request sent.
+          <a href="/delete_follow_request/<%= the_follow_request.id %>">Cancel</a>
         <% end %>
       </td>
       <td>
