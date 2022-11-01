@@ -23,7 +23,7 @@
         Image
       </dt>
       <dd>
-        <%= @the_photo.image %>
+        <img src="<%= @the_photo.image %>" alt="the photo"> />
       </dd>
 
       <dt>
@@ -34,10 +34,17 @@
       </dd>
 
       <dt>
-        Comments count
+        Owner
       </dt>
       <dd>
-        <%= @the_photo.comments_count %>
+        <%= @the_photo.owner_id %>
+      </dd>
+
+      <dt>
+        Posted
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_photo.created_at) %> ago
       </dd>
 
       <dt>
@@ -48,25 +55,35 @@
       </dd>
 
       <dt>
-        Owner
+        Comments count
       </dt>
       <dd>
-        <%= @the_photo.owner_id %>
+        <%= @the_photo.comments_count %>
       </dd>
 
       <dt>
-        Created at
+        Fans
       </dt>
       <dd>
-        <%= time_ago_in_words(@the_photo.created_at) %> ago
+        <% @the_photo.fan_list.each_with_index do |fan, index| %>
+          <% fan_string = ""  %>
+          <% if index == @the_photo.fan_list.count - 1 %>
+            <% fan_string += "and #{fan.username}" %>
+          <% else %>
+            <% fan_string += "#{fan.username}, " %>
+          <% end %>
+          <%= fan_string%>
+        <% end %>
       </dd>
 
-      <dt>
-        Updated at
-      </dt>
+      <dt>Add a fan</dt>
       <dd>
-        <%= time_ago_in_words(@the_photo.updated_at) %> ago
+        <form action="/insert_like" method="post">
+          <input type="hidden" name="query_photo_id" value="<%= @the_photo.id %>">
+          <button>Like</button>
+        </form>
       </dd>
+
     </dl>
   </div>
 </div>
