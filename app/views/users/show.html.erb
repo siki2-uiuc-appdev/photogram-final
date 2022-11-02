@@ -8,12 +8,32 @@
   <dt>Followers</dt>
   <dd>
     <%= @the_user.followers.count %>
-  <% if @current_user.id == @the_user.id %>
+    <%  pending_follow_requests = @the_user.pending_received_follow_requests %>
+  <% if @current_user.id != @the_user.id && !pending_follow_requests.where({ :sender_id => @current_user.id}).first%>
+    <dd>
+      <form action="/insert_follow_request" method="post">
+      
+        <input type="hidden" name="query_sender_id" value=<%= @current_user.id %> >
+        <input type="hidden" name="query_recipient_id" value=<%= @the_user.id %> >
+        <input type="hidden" name="query_status" value="pending">
+        <button>Follow</button>
+      </form>
+    </dd>
 
-  <h4>Pending follow requests</h4>
+    <%# FIX LOGIC %>
+  <% elsif @current_user.id != @the_user.id && pending_follow_requests.where( {:sender_id => @current_user.id}).first %>
+    <div>
+      <a href="/delete_follow_request/<%= pending_follow_requests.where( :sender_id => @current_user.id).first.id %>">
+        Unfollow
+      </a>
+    </div>
+  
+  <% elsif @current_user.id == @the_user.id %>
+
+    <h4>Pending follow requests</h4>
     <ul>
       <% @the_user.received_follow_requests.each do |request| %>
-        <li>
+        <li style="display: <%= request.status == 'pending' ? '' : 'none' %>">
           <% requester = User.where( {:id => request.sender_id}).first  %>
           <%= requester.username %>
 
@@ -35,10 +55,6 @@
         </li>
       <% end %>
     </ul>
-  <% else %>
-    <div>
-      <a href="/delete_follow_request/:id">Unfollow</a>
-    </div>
   <% end %>
   </dd>
 
