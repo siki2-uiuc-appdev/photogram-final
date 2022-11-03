@@ -32,8 +32,11 @@ class UsersController < ApplicationController
     end
 
 
-
-    render({ :template => "users/show.html.erb" })
+    if @the_user.followers.where( :id => @current_user.id).first
+      render({ :template => "users/show.html.erb" })
+    else 
+      redirect_to("/users", { :alert => "You're not authorized for that."})
+    end
   end
 
   
