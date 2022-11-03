@@ -6,55 +6,35 @@
   </div>
 </div>
 
-<hr>
-
-<div>
-  <div>
-    <h2>
-      Add a new photo
-    </h2>
-
-    <form action="/insert_photo" method="post">
-      <div>
+  <% if @current_user != nil %>
+    <form action="/insert_photo" enctype="multipart/form-data" method="post">
         <label for="image_box">
           Image
         </label>
+        <input type="file" id="image_box" name="query_image">
 
-        <input type="text" id="image_box" name="query_image">
-      </div>
-
-      <div>
         <label for="caption_box">
           Caption
         </label>
+        <textarea id="caption_box" name="query_caption" placeholder="Enter a caption for the photo..."></textarea>
 
-        <textarea id="caption_box" name="query_caption" rows="3"></textarea>
-      </div>
-
-      <div>
-
+      
         <input type="hidden" id="comments_count_box" name="query_comments_count" value="0">
-      </div>
-
-      <div>
-       
+      
         <input type="hidden" id="likes_count_box" name="query_likes_count" value="0">
-      </div>
 
-      <div>
-        <label for="owner_id_box">
+        <%# <label for="owner_id_box">
           Owner
         </label>
 
-        <input type="text" id="owner_id_box" name="query_owner_id">
-      </div>
+        <input type="text" id="owner_id_box" name="query_owner_id"> %>
 
       <button>
-        Create photo
+        Add photo
       </button>
     </form>
-  </div>
-</div>
+  <% end %>
+
 
 <hr>
 <div>
@@ -84,7 +64,7 @@
       <% @list_of_photos.each do |a_photo| %>
       <tr>
         <td>
-          <img src="<%= a_photo.image %>" alt="photo" />
+          <img src="<%= a_photo.image %>" alt="photo" style="width: 300px; height: 400px;" />
         </td>
 
         <td>

@@ -13,6 +13,8 @@
 #
 class Photo < ApplicationRecord
   validates(:poster, { :presence => true })
+  
+  mount_uploader :image, ImageUploader
 
   belongs_to(:poster, { :foreign_key => "owner_id", :class_name => "User"})
 
