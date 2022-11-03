@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
+
+  # Routes for the User resource:
+
   get("/", { :controller => "users", :action => "index" })
   get("/users", { :controller => "users", :action => "index" })
   get("/users/:username", { :controller => "users", :action => "show" })
+  get("/users/:username/:route", { :controller => "users", :action => "show"})
 
   # Routes for the Like resource:
 

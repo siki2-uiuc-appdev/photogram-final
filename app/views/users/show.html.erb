@@ -31,12 +31,14 @@
     </dd>
 
     <%# FIX LOGIC %>
-  <% elsif @current_user.id != @the_user.id && pending_follow_requests.where( {:sender_id => @current_user.id}).first%>
-    <div>
-      <a href="/delete_follow_request/<%=  pending_follow_requests.where( :sender_id => @current_user.id).first.id %>">
-        Unfollow
-      </a>
-    </div>
+  <% elsif @current_user.id != @the_user.id && pending_follow_requests.where( {:sender_id => @current_user.id}).first || @the_user.accepted_received_follow_requests.where({ :sender_id => @current_user.id}).first %>
+    <dd>
+      <div>
+        <a href="/delete_follow_request/<%=  @the_user.received_follow_requests.where( :sender_id => @current_user.id).first.id %>">
+          Unfollow
+        </a>
+      </div>
+    </dd>
   
   <% elsif @current_user.id == @the_user.id %>
 
@@ -96,7 +98,13 @@
   </ul>
 </nav>
 
-<h2>Own photos (<%= @the_user.own_photos.count %>)</h2>
+
+  <% if @route == "profile" || !@route %>
+    <h2>Own photos (<%= @the_user.own_photos.count %>)</h2>
+  <% elsif @route == "feed"%>
+    <h2>Feed (<%= @the_user.feed.count %>)</h2>
+  <% end %>
+
 
 <table border="1">
   <tr>
@@ -108,7 +116,7 @@
     <th></th>
   </tr>
 
-  <% @the_user.own_photos.each do |photo| %>
+  <% @content.each do |photo| %>
     <tr>
       <td>
         <img src="<%= photo.image %>" alt="">
