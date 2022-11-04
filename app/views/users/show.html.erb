@@ -30,7 +30,7 @@
       </form>
     </dd>
 
-    <%# FIX LOGIC %>
+    
   <% elsif @current_user.id != @the_user.id && pending_follow_requests.where( {:sender_id => @current_user.id}).first || @the_user.accepted_received_follow_requests.where({ :sender_id => @current_user.id}).first %>
     <dd>
       <div>
@@ -103,6 +103,10 @@
     <h2>Own photos (<%= @the_user.own_photos.count %>)</h2>
   <% elsif @route == "feed"%>
     <h2>Feed (<%= @the_user.feed.count %>)</h2>
+  <% elsif @route == "liked_photos"%>
+    <h2>Liked photos (<%= @the_user.liked_photos.count %>)</h2>
+  <% elsif @route == "discover"%>
+    <h2>Discover (<%= @the_user.discover.count %>)</h2>
   <% end %>
 
 
@@ -119,7 +123,7 @@
   <% @content.each do |photo| %>
     <tr>
       <td>
-        <img src="<%= photo.image %>" alt="">
+        <img src="<%= photo.image %>" style="width: 300px; height: 400px;" alt="Photo #<%= photo.id %>">
       </td>
       <td>
         <%= photo.poster.username %>

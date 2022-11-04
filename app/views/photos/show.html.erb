@@ -1,7 +1,7 @@
 <div>
   <div>
     <h1>
-      Photo #<%= @the_photo.id %> details
+      Photo Details
     </h1>
 
     <div>
@@ -11,11 +11,6 @@
         </a>
       </div>
 
-      <div>
-        <a href="/delete_photo/<%= @the_photo.id %>">
-          Delete photo
-        </a>
-      </div>
     </div>
 
     <dl>
@@ -23,7 +18,7 @@
         Image
       </dt>
       <dd>
-        <img src="<%= @the_photo.image %>" alt="the photo"> />
+        <img src="<%= @the_photo.image %>" alt="Photo #<%= @the_photo.id %>">
       </dd>
 
       <dt>
@@ -95,7 +90,7 @@
           </form>
         </dd>
       <% end %>
-    <%# <% if @current_user.id == @the_photo.poster.id%> %>
+    <% if @current_user.id == @the_photo.poster.id %>
       <dt>
         Edit photo
       </dt>
@@ -125,7 +120,7 @@
         </a>
       </dd>
       
-    <%# <% end %> %>
+    <% end %>
     </dl>
   </div>
 </div>
