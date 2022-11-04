@@ -77,6 +77,9 @@
       </dd>
 
       <dt>Add a fan</dt>
+      <% if @current_user != nil %>
+        
+      <% end %>
       <% if @current_user.liked_photos.include?(@the_photo) %>
          <dd>
           <% the_like = Like.where({ :photo_id => @the_photo.id }).where({ :fan_id => @current_user.id }).first  %>

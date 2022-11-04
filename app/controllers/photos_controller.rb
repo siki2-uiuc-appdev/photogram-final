@@ -1,8 +1,17 @@
 class PhotosController < ApplicationController
   def index
     matching_photos = Photo.all
+    public_profiles = User.where({ :private => false })
+    public_photos_array = Array.new
 
-    @list_of_photos = matching_photos.order({ :created_at => :desc })
+    # @list_of_photos = matching_photos.order({ :created_at => :desc })
+    public_profiles.each do |profile|
+      profile.own_photos.each do | photo |
+        public_photos_array.push(photo)
+      end
+    end
+
+    @list_of_photos = public_photos_array
     
 
     render({ :template => "photos/index.html.erb" })
@@ -14,8 +23,11 @@ class PhotosController < ApplicationController
     matching_photos = Photo.where({ :id => the_id })
 
     @the_photo = matching_photos.at(0)
-
-    render({ :template => "photos/show.html.erb" })
+    if @current_user != nil
+      render({ :template => "photos/show.html.erb" })
+    else
+      redirect_to("/user_sign_in", { :alert => "You have to sign in first."})
+    end
   end
 
   def create

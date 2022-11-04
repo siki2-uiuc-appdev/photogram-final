@@ -31,12 +31,18 @@ class UsersController < ApplicationController
       
     end
 
-
-    if @the_user.followers.where( :id => @current_user.id).first
-      render({ :template => "users/show.html.erb" })
-    else 
-      redirect_to("/users", { :alert => "You're not authorized for that."})
+    if @current_user != nil 
+      if @the_user.followers.where( :id => @current_user.id).first || !@the_user.private
+        render({ :template => "users/show.html.erb" })
+      elsif @current_user.id == @the_user.id
+        render({ :template => "users/show.html.erb" })
+      else 
+        redirect_to("/users", { :alert => "You're not authorized for that."})
+      end
+    else
+      redirect_to("/user_sign_in", { :alert => "You have to sign in first."})
     end
+
   end
 
   
